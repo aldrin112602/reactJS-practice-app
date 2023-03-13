@@ -55,7 +55,7 @@ const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
   const [text, setText] = useState("");
   const [updateID, setUpdateID] = useState({});
-  const modalElement = useRef();
+  const modalElement = useRef<HTMLDivElement>(null);
 
   const addTodo = () => {
     text.trim().length && dispatch({ type: "add_todo", payload: { text } });
