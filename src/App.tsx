@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState, useRef } from "react";
 
 const initialTodos = {
   todos: [
@@ -54,6 +54,8 @@ const reducer = (state: any, action: any) => {
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
   const [text, setText] = useState("");
+  const [updateID, setUpdateID] = useState({});
+  const modalElement = useRef();
 
   const addTodo = () => {
     text.trim().length && dispatch({ type: "add_todo", payload: { text } });
@@ -66,8 +68,9 @@ const App = () => {
     }
   };
 
-  const editTodo = (payload: any) => {
-    dispatch(payload);
+  const editTodo = (id: number, text: string) => {
+    setUpdateID({ id, text });
+    // open modal
   };
 
   return (
@@ -104,7 +107,7 @@ const App = () => {
               <div className="col d-flex align-items-center justify-content-end gap-2">
                 <button
                   className="btn btn-success d-flex align-items-center justify-content-between"
-                  onClick={editTodo}
+                  onClick={() => editTodo(id, text)}
                 >
                   <span className="material-symbols-outlined">edit_note</span>
                 </button>
@@ -135,6 +138,45 @@ const App = () => {
           >
             <span className="material-symbols-outlined">add</span>
           </button>
+        </div>
+      </div>
+
+      {/* modal for update */}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex={-1}
+        ref={modalElement}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Update Todo
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <textarea className="form-control"></textarea>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
