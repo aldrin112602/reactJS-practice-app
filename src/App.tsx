@@ -6,7 +6,7 @@ const initialTodos = {
       text: "Lorem ipsum dolor sit amet",
       id: Math.floor(Math.random() * 999999),
       done: false,
-    }
+    },
   ],
 };
 
@@ -53,17 +53,17 @@ const reducer = (state: any, action: any) => {
 
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
-  const [text, setText] = useState('')
+  const [text, setText] = useState("");
   const addTodo = () => {
-    dispatch({ type: 'add_todo', payload: { text }});
-    setText('')
+    dispatch({ type: "add_todo", payload: { text } });
+    setText("");
   };
 
   const deleteTodo = (id: number) => {
-    if(confirm('Are you sure to remove that item ?')) {
-      dispatch({ type: "delete_todo", payload: { id }});
+    if (confirm("Are you sure to remove that item ?")) {
+      dispatch({ type: "delete_todo", payload: { id } });
     }
-  }
+  };
 
   const editTodo = (payload: any) => {
     dispatch(payload);
@@ -88,7 +88,14 @@ const App = () => {
                     checked={done ? true : false}
                     onChange={(e) => dispatch({ id, type: "toggle_checked" })}
                   />
-                  <label className="form-check-label fs-5 fw-semibold">
+                  <label
+                    className={
+                      "form-check-label fs-5 fw-semibold " +
+                      (done
+                        ? "text-decoration-line-through text-secondary"
+                        : "")
+                    }
+                  >
                     {text}
                   </label>
                 </div>
