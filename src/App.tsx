@@ -23,6 +23,13 @@ const reducer = (state: any, action: any) => {
           },
         ],
       };
+    case "toggle_checked":
+      return {
+        todos: state.todos.map((todo: any) =>
+          todo.id == action.id ? { ...todo, done: !todo.done } : todo
+        ),
+      };
+      break;
     case "delete_todo":
       return {
         todos: state.todos.filter((todo: any) => todo.id !== action.payload.id),
@@ -44,8 +51,6 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-
-
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
 
@@ -54,12 +59,13 @@ const App = () => {
   };
 
   const deleteTodo = (token: any) => {
-     dispatch(token);
+    dispatch(token);
   };
 
   const editTodo = (token: any) => {
-     dispatch(token);
+    dispatch(token);
   };
+
   return (
     <>
       <h1>Todo App</h1>
@@ -74,6 +80,7 @@ const App = () => {
                     className="form-check-input"
                     type="checkbox"
                     checked={done ? true : false}
+                    onChange={(e) => dispatch({ id, type: "toggle_checked" })}
                   />
                   <label className="form-check-label">{text}</label>
                 </div>
