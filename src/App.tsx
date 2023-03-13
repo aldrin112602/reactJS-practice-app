@@ -13,29 +13,53 @@ const initialTodos = {
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case "add_todo":
-      break;
+      return {
+        todos: [
+          ...state.todos,
+          {
+            text: action.payload.text,
+            id: Math.floor(Math.random() * 999999),
+            done: false,
+          },
+        ],
+      };
     case "delete_todo":
-      break;
+      return {
+        todos: state.todos.filter((todo: any) => todo.id !== action.payload.id),
+      };
     case "edit_todo":
-      break;
+      return {
+        todos: state.todos.map((todo: any) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              text: action.payload.text,
+            };
+          }
+          return todo;
+        }),
+      };
     default:
       throw Error("Invalid action type: " + action.type);
   }
 };
 
 
+
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
 
   const addTodo = (token: any) => {
-    dispatch(token)
+    dispatch(token);
   };
 
-  const deleteTodo = () => {
-    
+  const deleteTodo = (token: any) => {
+     dispatch(token);
   };
 
-  const editTodo = () => {};
+  const editTodo = (token: any) => {
+     dispatch(token);
+  };
   return (
     <>
       <h1>Todo App</h1>
