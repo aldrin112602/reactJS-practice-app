@@ -54,8 +54,9 @@ const reducer = (state: any, action: any) => {
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
   const [text, setText] = useState("");
+
   const addTodo = () => {
-    dispatch({ type: "add_todo", payload: { text } });
+    text.trim().length && dispatch({ type: "add_todo", payload: { text } });
     setText("");
   };
 
