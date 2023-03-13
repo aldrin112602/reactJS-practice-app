@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 
 const initialTodos = {
   todos: [
@@ -6,7 +6,7 @@ const initialTodos = {
       text: "Lorem ipsum dolor sit amet",
       id: Math.floor(Math.random() * 999999),
       done: false,
-    },
+    }
   ],
 };
 
@@ -53,55 +53,79 @@ const reducer = (state: any, action: any) => {
 
 const App = () => {
   const [todos, dispatch] = useReducer(reducer, initialTodos);
-
-  const addTodo = (token: any) => {
-    dispatch(token);
+  const [text, setText] = useState('')
+  const addTodo = () => {
+    dispatch({ type: 'add_todo', payload: { text }});
+    setText('')
   };
 
-  const deleteTodo = (token: any) => {
-    dispatch(token);
+  const deleteTodo = (payload: any) => {
+    dispatch(payload);
   };
 
-  const editTodo = (token: any) => {
-    dispatch(token);
+  const editTodo = (payload: any) => {
+    dispatch(payload);
   };
 
   return (
     <>
-      <h1>Todo App</h1>
-      <div>
+      <h1 className="py-3 text-primary">Todo App</h1>
+      <div
+        style={{ minHeight: "300px", maxHeight: "600px" }}
+        className="p-2 bg-light"
+      >
         {todos.todos.map((todo: any) => {
           const { text, id, done } = todo;
           return (
-            <div className="row" key={id}>
+            <div className="row my-2" key={id}>
               <div className="col">
-                <div className="form-check">
+                <div className="form-check d-flex align-items-center justify-content-start gap-3">
                   <input
-                    className="form-check-input"
+                    className="form-check-input p-2"
                     type="checkbox"
                     checked={done ? true : false}
                     onChange={(e) => dispatch({ id, type: "toggle_checked" })}
                   />
-                  <label className="form-check-label">{text}</label>
+                  <label className="form-check-label fs-5 fw-semibold">
+                    {text}
+                  </label>
                 </div>
               </div>
-              <div className="col d-flex align-items-center justify-content-end">
+              <div className="col d-flex align-items-center justify-content-end gap-2">
                 <button
+                  className="btn btn-success d-flex align-items-center justify-content-between"
                   onClick={editTodo}
-                  className="btn btn-primary text-white"
                 >
-                  <i className="fas fa-edit"></i>
+                  <span className="material-symbols-outlined">edit_note</span>
                 </button>
                 <button
+                  className="btn btn-danger d-flex align-items-center justify-content-between"
                   onClick={deleteTodo}
-                  className="btn btn-primary text-white"
                 >
-                  <i className="fas fa-remove"></i>
+                  <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
             </div>
           );
         })}
+      </div>
+      <div className="px-2 my-3 d-flex align-items-center justify-content-between gap-3">
+        <div className="col-11">
+          <input
+            type="text"
+            value={text}
+            className="form-control"
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
+        <div className="col-1">
+          <button
+            className="btn btn-dark d-flex align-items-center justify-content-center"
+            onClick={addTodo}
+          >
+            <span className="material-symbols-outlined">add</span>
+          </button>
+        </div>
       </div>
     </>
   );
