@@ -59,9 +59,11 @@ const App = () => {
     setText('')
   };
 
-  const deleteTodo = (payload: any) => {
-    dispatch(payload);
-  };
+  const deleteTodo = (id: number) => {
+    if(confirm('Are you sure to remove that item ?')) {
+      dispatch({ type: "delete_todo", payload: { id }});
+    }
+  }
 
   const editTodo = (payload: any) => {
     dispatch(payload);
@@ -100,7 +102,7 @@ const App = () => {
                 </button>
                 <button
                   className="btn btn-danger d-flex align-items-center justify-content-between"
-                  onClick={deleteTodo}
+                  onClick={() => deleteTodo(id)}
                 >
                   <span className="material-symbols-outlined">close</span>
                 </button>
